@@ -17,6 +17,7 @@
     "ejs": "^6.0.1",
     "express": "^5.2.1",
     "multer": "^2.2.0",
+    "uuid": "^14.0.1",
     "xmlbuilder2": "^4.0.3"
   },
   "devDependencies": {

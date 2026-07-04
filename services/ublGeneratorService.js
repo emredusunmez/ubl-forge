@@ -2,43 +2,64 @@ const { create } = require("xmlbuilder2");
 
 function generate(invoice) {
 
-    const xml = create({ version: "1.0" })
+    const root = create({
+        version: "1.0",
+        encoding: "UTF-8"
+    })
+    .ele("Invoice", {
 
-        .ele("Invoice")
+        xmlns: "urn:oasis:names:specification:ubl:schema:xsd:Invoice-2",
 
-            .ele("ID")
-                .txt(invoice.id)
-            .up()
+        "xmlns:cac":
+            "urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2",
 
-            .ele("IssueDate")
-                .txt(invoice.issueDate)
-            .up()
+        "xmlns:cbc":
+            "urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2"
 
-            .ele("Customer")
+    });
+    root
+        .ele("cbc:UBLVersionID")
+        .txt(invoice.ublVersion)
+        .up();
 
-                .ele("Name")
-                    .txt(invoice.customer.name)
-                .up()
+    root
+        .ele("cbc:CustomizationID")
+        .txt(invoice.customizationID)
+        .up();
 
-                .ele("VKN")
-                    .txt(invoice.customer.vkn)
-                .up()
+    root
+        .ele("cbc:ProfileID")
+        .txt(invoice.profileID)
+        .up();
+    
+    root
+        .ele("cbc:ID")
+        .txt(invoice.id)
+        .up();
 
-            .up()
+    root
+        .ele("cbc:UUID")
+        .txt(invoice.uuid)
+        .up();
+    
+    root
+        .ele("cbc:IssueDate")
+        .txt(invoice.issueDate)
+        .up();
+    
+    root
+        .ele("cbc:InvoiceTypeCode")
+        .txt(invoice.invoiceTypeCode)
+        .up();
 
-            .ele("Supplier")
+    root
+        .ele("cbc:DocumentCurrencyCode")
+        .txt(invoice.currency)
+        .up();
 
-                .ele("Name")
-                    .txt(invoice.supplier.name)
-                .up()
-
-            .up()
-
-        .end({
-            prettyPrint: true
-        });
-
-    return xml;
+    return root.end({
+        prettyPrint: true
+    });
 
 }
 

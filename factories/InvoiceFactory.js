@@ -2,6 +2,7 @@ const Invoice = require("../models/Invoice");
 const Customer = require("../models/Customer");
 const Supplier = require("../models/Supplier");
 const InvoiceLine = require("../models/InvoiceLine");
+const { v4: uuidv4 } = require("uuid");
 
 class InvoiceFactory {
 
@@ -10,14 +11,15 @@ class InvoiceFactory {
         const invoice = new Invoice();
 
         invoice.id = row.InvoiceNo || "";
-
-        invoice.issueDate = row.Date || new Date().toISOString().substring(0,10);
+        invoice.uuid = uuidv4();
+        
+        invoice.issueDate =
+            row.Date || new Date().toISOString().substring(0, 10);
 
         // Customer
         const customer = new Customer();
 
         customer.name = row.Customer || "";
-
         customer.vkn = row.CustomerVKN || "";
 
         invoice.customer = customer;
@@ -26,7 +28,6 @@ class InvoiceFactory {
         const supplier = new Supplier();
 
         supplier.name = "Demo Firma";
-
         supplier.vkn = "1111111111";
 
         invoice.supplier = supplier;
@@ -35,11 +36,8 @@ class InvoiceFactory {
         const line = new InvoiceLine();
 
         line.name = row.Product || "";
-
         line.quantity = Number(row.Quantity || 0);
-
         line.price = Number(row.Price || 0);
-
         line.taxPercent = Number(row.VAT || 20);
 
         line.lineTotal = line.quantity * line.price;
