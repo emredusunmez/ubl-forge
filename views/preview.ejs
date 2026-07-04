@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>CSV Önizleme</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+
+        <div class="card-header">
+
+            <h2>📄 UBL Converter</h2>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-success">
+
+                <strong><%= fileName %></strong> başarıyla yüklendi.
+
+            </div>
+
+            <table class="table table-bordered table-striped">
+
+                <thead>
+
+                <tr>
+
+                    <% Object.keys(rows[0]).forEach(column => { %>
+
+                        <th><%= column %></th>
+
+                    <% }) %>
+
+                </tr>
+
+                </thead>
+
+                <tbody>
+
+                <% rows.forEach(row => { %>
+
+                    <tr>
+
+                        <% Object.values(row).forEach(value => { %>
+
+                            <td><%= value %></td>
+
+                        <% }) %>
+
+                    </tr>
+
+                <% }) %>
+
+                </tbody>
+
+            </table>
+
+            <button class="btn btn-primary">
+
+                XML Oluştur
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
