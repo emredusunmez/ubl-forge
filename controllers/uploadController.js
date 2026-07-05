@@ -1,6 +1,6 @@
 const csvService = require("../services/csvService");
 const InvoiceFactory = require("../factories/InvoiceFactory");
-const ublGenerator = require("../services/ublGeneratorService");
+const ublGenerator = require("../services/ublGenerator");
 
 const fs = require("fs");
 const path = require("path");
