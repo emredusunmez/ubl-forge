@@ -3,6 +3,7 @@ const { create } = require("xmlbuilder2");
 const buildHeader = require("./header");
 const buildSupplier = require("./supplier");
 const buildCustomer = require("./customer");
+const buildInvoiceLines = require("./invoiceLine");
 
 function generate(invoice) {
 
@@ -25,7 +26,9 @@ function generate(invoice) {
     buildSupplier(root, invoice.supplier);
 
     buildCustomer(root, invoice.customer);
-    
+
+    buildInvoiceLines(root, invoice.lines, invoice.currency);
+
     return root.end({
         prettyPrint: true
     });
