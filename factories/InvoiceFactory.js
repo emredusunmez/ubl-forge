@@ -18,9 +18,10 @@ class InvoiceFactory {
 
         // Customer
         const customer = new Customer();
-
+        
         customer.name = row.Customer || "";
         customer.vkn = row.CustomerVKN || "";
+        customer.city = row.CustomerCity || "";
 
         invoice.customer = customer;
 

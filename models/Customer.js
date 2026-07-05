@@ -8,9 +8,19 @@ class Customer {
 
         this.street = "";
 
+        this.district = "";
+
         this.city = "";
 
+        this.postalCode = "";
+
         this.country = "TR";
+
+        this.taxOffice = "";
+
+        this.email = "";
+
+        this.phone = "";
 
     }
 
