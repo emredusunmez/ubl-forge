@@ -2,54 +2,65 @@ const Invoice = require("../models/Invoice");
 const Customer = require("../models/Customer");
 const Supplier = require("../models/Supplier");
 const InvoiceLine = require("../models/InvoiceLine");
-const { v4: uuidv4 } = require("uuid");
+const crypto = require("crypto");
 
 class InvoiceFactory {
 
-    static create(row) {
+    static create(rows) {
+
+        const firstRow = rows[0];
 
         const invoice = new Invoice();
 
-        invoice.id = row.InvoiceNo || "";
-        invoice.uuid = uuidv4();
-        
-        invoice.issueDate =
-            row.Date || new Date().toISOString().substring(0, 10);
+        invoice.id = firstRow.InvoiceNo;
+        invoice.uuid = crypto.randomUUID();
+
+        invoice.issueDate = firstRow.Date;
 
         // Customer
         const customer = new Customer();
-        
-        customer.name = row.Customer || "";
-        customer.vkn = row.CustomerVKN || "";
-        customer.city = row.CustomerCity || "";
+        customer.name = firstRow.Customer || "";
+        customer.vkn = firstRow.CustomerVKN || "";
+        customer.city = firstRow.CustomerCity || "";
 
         invoice.customer = customer;
 
         // Supplier
         const supplier = new Supplier();
-
         supplier.name = "Demo Firma";
         supplier.vkn = "1111111111";
 
         invoice.supplier = supplier;
 
-        // Invoice Line
-        const line = new InvoiceLine();
+        let totalWithoutTax = 0;
+        let totalTax = 0;
 
-        line.name = row.Product || "";
-        line.quantity = Number(row.Quantity || 0);
-        line.price = Number(row.Price || 0);
-        line.taxPercent = Number(row.VAT || 20);
+        rows.forEach(row => {
 
-        line.lineTotal = line.quantity * line.price;
+            const line = new InvoiceLine();
 
-        invoice.lines.push(line);
+            line.name = row.Product || "";
 
-        invoice.taxTotal =
-            line.lineTotal * line.taxPercent / 100;
+            line.quantity = Number(row.Quantity);
 
-        invoice.payableAmount =
-            line.lineTotal + invoice.taxTotal;
+            line.price = Number(row.Price);
+
+            line.taxPercent = Number(row.VAT);
+
+            line.lineTotal = line.quantity * line.price;
+
+            invoice.lines.push(line);
+
+            totalWithoutTax += line.lineTotal;
+
+            totalTax += line.lineTotal * line.taxPercent / 100;
+
+        });
+        invoice.lineExtensionAmount = totalWithoutTax;
+        
+        invoice.taxTotal = totalTax;
+
+        invoice.payableAmount = totalWithoutTax + totalTax;
 
         return invoice;
 

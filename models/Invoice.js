@@ -29,6 +29,7 @@ class Invoice {
 
         this.payableAmount = 0;
 
+        this.lineExtensionAmount = 0;
     }
 
 }

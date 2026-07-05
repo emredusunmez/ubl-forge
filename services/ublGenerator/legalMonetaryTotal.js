@@ -6,14 +6,14 @@ function buildLegalMonetaryTotal(root, invoice) {
         .ele("cbc:LineExtensionAmount", {
             currencyID: invoice.currency
         })
-        .txt(invoice.lines[0].lineTotal.toFixed(2))
+        .txt(invoice.lineExtensionAmount.toFixed(2))
         .up();
 
     total
         .ele("cbc:TaxExclusiveAmount", {
             currencyID: invoice.currency
         })
-        .txt(invoice.lines[0].lineTotal.toFixed(2))
+        .txt(invoice.lineExtensionAmount.toFixed(2))
         .up();
 
     total

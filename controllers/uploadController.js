@@ -1,6 +1,7 @@
 const csvService = require("../services/csvService");
 const InvoiceFactory = require("../factories/InvoiceFactory");
 const ublGenerator = require("../services/ublGenerator");
+const invoiceGroupingService = require("../services/invoiceGroupingService");
 
 const fs = require("fs");
 const path = require("path");
@@ -18,14 +19,17 @@ async function uploadCSV(req, res) {
         console.log('rows[0]["InvoiceNo"] =>', rows[0]["InvoiceNo"]);
         console.log("Object.keys(rows[0]) =>", Object.keys(rows[0]));
 
+        // InvoiceNo'ya göre grupla
+        const groupedInvoices =
+            invoiceGroupingService.groupRowsByInvoice(rows);
+
         // Invoice nesnelerini oluştur
-        const invoices = rows.map(row => InvoiceFactory.create(row));
+        const invoices = groupedInvoices.map(group =>
+            InvoiceFactory.create(group)
+        );
 
-        console.log("========== INVOICE ==========");
-        console.log(invoices[0]);
-
-        // İlk faturanın XML'ini oluştur
-        const xml = ublGenerator.generate(invoices[0]);
+        console.log("========== INVOICES ==========");
+        console.log(invoices);
 
         // outputs klasörü oluştur
         const outputDir = path.join(__dirname, "../outputs");
@@ -34,22 +38,50 @@ async function uploadCSV(req, res) {
             fs.mkdirSync(outputDir);
         }
 
-        // XML'i kaydet
-        const outputPath = path.join(
-            outputDir,
-            `${invoices[0].id || "invoice"}.xml`
-        );
-        console.log(xml);
-        fs.writeFileSync(outputPath, xml, "utf8");
+        // Tüm XML'leri üret
+        const generatedFiles = [];
 
-        // Sayfaya gönder
+        invoices.forEach(invoice => {
+
+            const xml = ublGenerator.generate(invoice);
+
+            const outputPath = path.join(
+                outputDir,
+                `${invoice.id}.xml`
+            );
+
+            fs.writeFileSync(outputPath, xml, "utf8");
+
+            generatedFiles.push({
+
+                id: invoice.id,
+
+                xml: xml,
+
+                fileName: `${invoice.id}.xml`
+
+            });
+
+        });
+
+        console.log("========== GENERATED FILES ==========");
+        console.log(generatedFiles.map(f => f.fileName));
+
+        // Önizleme sayfasına gönder
         res.render("preview", {
-            rows: rows,
+
+            rows,
+
             fileName: req.file.originalname,
-            xml: xml
+
+            invoices,
+
+            generatedFiles
+
         });
 
     }
+
     catch (err) {
 
         console.error(err);
@@ -61,5 +93,7 @@ async function uploadCSV(req, res) {
 }
 
 module.exports = {
+
     uploadCSV
+
 };

@@ -16,7 +16,7 @@ function buildTaxTotal(root, invoice) {
         .ele("cbc:TaxableAmount", {
             currencyID: invoice.currency
         })
-        .txt(invoice.lines[0].lineTotal.toFixed(2))
+        .txt(invoice.lineExtensionAmount.toFixed(2))
         .up();
 
     subtotal

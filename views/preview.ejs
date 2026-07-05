@@ -13,7 +13,7 @@
 
 <body class="bg-light">
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
 
     <div class="card shadow">
 
@@ -67,16 +67,74 @@
 
             </table>
 
-            <button class="btn btn-primary">
+            <% if (generatedFiles.length === 1) { %>
 
-                XML Oluştur
+             <a
+            href="/download/<%= generatedFiles[0].id %>"
+            class="btn btn-success">
+
+            📥 XML İndir
+
+            </a>
+
+            <% } else { %>
+
+            <button class="btn btn-success" disabled>
+
+            📦 ZIP İndir (Yakında)
 
             </button>
+
+            <% } %>
+            
             <hr>
 
-            <h3>Oluşturulan XML</h3>
+            <% if (generatedFiles.length === 1) { %>
 
-            <pre><%= xml %></pre>
+                <h3>Oluşturulan XML</h3>
+
+                <div class="card mt-3">
+
+                    <div class="card-header d-flex justify-content-between align-items-center">
+
+                        <strong><%= generatedFiles[0].fileName %></strong>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <pre class="mb-0"><%= generatedFiles[0].xml %></pre>
+
+                    </div>
+
+                </div>
+
+            <% } else { %>
+
+                <h3>Oluşturulan XML Dosyaları</h3>
+
+                <% generatedFiles.forEach(file => { %>
+
+                    <div class="card mt-3">
+
+                        <div class="card-header d-flex justify-content-between align-items-center">
+
+                            <strong><%= file.fileName %></strong>
+
+                        </div>
+
+                        <div class="card-body">
+
+                            <pre class="mb-0"><%= file.xml %></pre>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            <% } %>
+
         </div>
 
     </div>
