@@ -4,6 +4,8 @@ const buildHeader = require("./header");
 const buildSupplier = require("./supplier");
 const buildCustomer = require("./customer");
 const buildInvoiceLines = require("./invoiceLine");
+const buildTaxTotal = require("./taxTotal");
+const buildLegalMonetaryTotal = require("./legalMonetaryTotal");
 
 function generate(invoice) {
 
@@ -28,6 +30,10 @@ function generate(invoice) {
     buildCustomer(root, invoice.customer);
 
     buildInvoiceLines(root, invoice.lines, invoice.currency);
+
+    buildTaxTotal(root, invoice);
+    
+    buildLegalMonetaryTotal(root, invoice);
 
     return root.end({
         prettyPrint: true
