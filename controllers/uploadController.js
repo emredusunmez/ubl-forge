@@ -36,7 +36,20 @@ async function uploadCSV(req, res) {
 
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir);
+        } 
+        else {
+        // Eski XML'leri temizle
+        fs.readdirSync(outputDir).forEach(file => {
+
+        if (file.endsWith(".xml")) {
+
+            fs.unlinkSync(path.join(outputDir, file));
+
         }
+
+    });
+
+}
 
         // Tüm XML'leri üret
         const generatedFiles = [];
@@ -68,17 +81,21 @@ async function uploadCSV(req, res) {
         console.log(generatedFiles.map(f => f.fileName));
 
         // Önizleme sayfasına gönder
-        res.render("preview", {
+        const now = new Date();
 
-            rows,
+        const summary = {
+            totalRows: rows.length,
+            totalXml: generatedFiles.length,
+            totalFiles: generatedFiles.length,
+            uploadTime: now.toLocaleString("tr-TR")
+        };
 
-            fileName: req.file.originalname,
-
-            invoices,
-
-            generatedFiles
-
-        });
+res.render("preview", {
+    rows,
+    fileName: req.file.originalname,
+    generatedFiles,
+    summary
+});
 
     }
 
