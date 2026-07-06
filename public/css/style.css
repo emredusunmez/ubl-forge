@@ -1,4 +1,9 @@
+/*====================================================
+GENERAL
+====================================================*/
+
 pre{
+
     background:#1e1e1e;
     color:#d4d4d4;
     border-radius:1px;
@@ -11,7 +16,19 @@ pre{
     word-break:break-word;
     border:1px solid #343a40;
     box-shadow: inset 0 0 10px rgba(0,0,0,.2);
+
 }
+
+body{
+
+    background:#f8f9fa;
+
+}
+
+/*====================================================
+LAYOUT
+====================================================*/
+
 .card{
 
     border-radius:15px;
@@ -24,6 +41,28 @@ pre{
 
 }
 
+/*====================================================
+UTILITIES
+====================================================*/
+
+.cursor-pointer{
+
+    cursor:pointer;
+
+}
+
+/*====================================================
+UPLOAD PAGE
+====================================================*/
+
+.drop-zone{
+
+    border-style:dashed !important;
+    cursor:pointer;
+    transition:.25s;
+
+}
+
 .display-5{
 
     transition:.25s;
@@ -33,5 +72,58 @@ pre{
 .display-5:hover{
 
     transform:scale(1.1);
+
+}
+
+/*====================================================
+LOADING OVERLAY
+====================================================*/
+
+.loading-overlay{
+
+    background:rgba(255,255,255,.75);
+    backdrop-filter:blur(4px);
+    z-index:9999;
+
+}
+
+.loading-spinner{
+
+    width:4rem;
+    height:4rem;
+
+}
+
+.loading-progress{
+
+    height:8px;
+
+}
+
+.loading-progress-bar{
+
+    width:0%;
+
+}
+
+/*====================================================
+PREVIEW PAGE
+====================================================*/
+
+/* XML Preview ile ilgili stiller buraya gelecek */
+
+/*====================================================
+ANIMATIONS
+====================================================*/
+
+/* @keyframes tanımları ileride buraya gelecek */
+
+/*====================================================
+RESPONSIVE
+====================================================*/
+
+@media (max-width:768px){
+
+    /* Mobil düzenlemeleri buraya ekleyeceğiz */
 
 }

@@ -73,8 +73,7 @@
 
 <div
     id="dropZone"
-    class="border border-2 rounded-4 p-5 text-center bg-light"
-    style="border-style:dashed !important; cursor:pointer; transition:.25s;">
+    class="drop-zone border border-2 rounded-4 p-5 text-center bg-light">
 
     <i
         id="uploadIcon"
@@ -179,30 +178,20 @@
 
 <div
     id="loadingOverlay"
-    class="position-fixed top-0 start-0 w-100 h-100 d-none justify-content-center align-items-center"
-    style="
-        background: rgba(255,255,255,.75);
-        backdrop-filter: blur(4px);
-        z-index:9999;
-    ">
+    class="loading-overlay position-fixed top-0 start-0 w-100 h-100 d-none justify-content-center align-items-center">
 
     <div class="card border-0 shadow-lg">
 
         <div class="card-body text-center p-5">
 
-            <div
-                class="spinner-border text-primary mb-4"
-                style="width:4rem;height:4rem;">
+            <div class="loading-spinner spinner-border text-primary mb-4">
 
             </div>
-            <div
-    class="progress mt-4"
-    style="height:8px;">
+            <div class="loading-progress progress mt-4">
 
     <div
-        id="loadingProgress"
-        class="progress-bar progress-bar-striped progress-bar-animated"
-        style="width:0%">
+    id="loadingProgress"
+    class="loading-progress-bar progress-bar progress-bar-striped progress-bar-animated">
 
     </div>
 
